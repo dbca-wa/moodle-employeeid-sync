@@ -21,7 +21,7 @@ moodle_map = {x[1].lower(): (x[0], x[2]) for x in moodle_data}
 
 for email, (dbid, dbempl) in moodle_map.items():
     if email in users and users[email]['employee_id'] and dbempl != users[email]['employee_id']:
-        #print('UPDATE mdl_user SET idnumber="{}" WHERE id={};'.format(users[email]['employee_id'], dbid))
+        print('Updating Moodle: set {} employee ID to {}'.format(email, users[email]['employee_id']))
         conn.execute('UPDATE mdl_user SET idnumber="{}" WHERE id={};'.format(users[email]['employee_id'], dbid))
 
 conn.close()
