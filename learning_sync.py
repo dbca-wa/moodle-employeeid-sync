@@ -10,9 +10,11 @@ it_assets_auth = (
     os.environ['IT_ASSETS_USER_PW'],
 )
 
+print('Querying IT Assets database for user data')
 users_json = requests.get(os.environ['IT_ASSETS_API_URL'], auth=it_assets_auth).json()
 users = {x['email'].lower(): x for x in users_json['objects']}
 
+print('Querying LMS database for user data')
 database_url = os.environ['DATABASE_URL']
 engine = create_engine(database_url)
 conn = engine.connect()
@@ -25,3 +27,4 @@ for email, (dbid, dbempl) in moodle_map.items():
         conn.execute('UPDATE mdl_user SET idnumber="{}" WHERE id={};'.format(users[email]['employee_id'], dbid))
 
 conn.close()
+print('Sync completed')
